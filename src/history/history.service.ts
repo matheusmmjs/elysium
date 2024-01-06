@@ -43,4 +43,16 @@ export class HistoryService {
       });
     }
   }
+
+  async get(clientId: string): Promise<History | null> {
+    try {
+      return await this.historyModel.findOne({ clientId }).exec();
+    } catch (error) {
+      this.logger.error('Error fetching history:', error);
+      throw new UnprocessableEntityException({
+        message: 'Error fetching history',
+        error,
+      });
+    }
+  }
 }

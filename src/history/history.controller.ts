@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { HistoryService } from './history.service';
 
 @Controller({
@@ -7,4 +7,9 @@ import { HistoryService } from './history.service';
 })
 export class HistoryController {
   constructor(private readonly historyService: HistoryService) {}
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.historyService.get(id);
+  }
 }

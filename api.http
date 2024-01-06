@@ -14,3 +14,6 @@ content-type: application/json
     "to": "whatsapp:+5514998336427",
     "body": "Teste matheus via ngrok"
 }
+
+###
+GET https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/history/5514998336427 HTTP/1.1
