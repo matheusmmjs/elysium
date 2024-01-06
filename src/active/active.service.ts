@@ -1,6 +1,4 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-import { Logger, Injectable } from '@nestjs/common';
+import { Logger, Injectable, BadRequestException } from '@nestjs/common';
 import { Twilio } from 'twilio';
 import { CreateActiveDto } from './dto/create-active.dto';
 
@@ -23,12 +21,14 @@ export class ActiveService {
         to: createActiveDto.to,
         from: process.env.TWILIO_PHONE_NUMBER,
       });
-      this.logger.debug('Message:', message);
-
+      this.logger.debug('Sent successfully');
       return message.sid;
     } catch (error) {
-      this.logger.error('Erro ao enviar mensagem Twilio:', error);
-      throw error;
+      this.logger.error('Error sending Twilio message:', error);
+      throw new BadRequestException({
+        message: 'Error sending Twilio message',
+        error,
+      });
     }
   }
 }
