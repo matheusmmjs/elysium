@@ -1,11 +1,12 @@
 import { Schema } from 'mongoose';
 
 export const MessageSchema = new Schema({
-  sender: { type: String, required: true },
-  recipient: { type: String, required: true },
+  from: { type: String, required: true },
+  to: { type: String, required: true },
   content: { type: String, required: true },
   status: { type: String, required: true },
   name: { type: String, required: true },
+  role: { type: String, required: true },
   sentDate: { type: Date, default: Date.now },
 });
 
@@ -19,10 +20,11 @@ MessageSchema.pre('save', function (next) {
 import { Document } from 'mongoose';
 
 export interface Message extends Document {
-  sender: string;
-  recipient: string;
+  from: string;
+  to: string;
   content: string;
   status: string;
   name: string;
+  role: string;
   sentDate: Date;
 }

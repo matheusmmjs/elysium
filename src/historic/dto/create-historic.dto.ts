@@ -1,11 +1,11 @@
 import { IsString } from 'class-validator';
 
-export class CreateHistoryDto {
+export class CreateHistoricDto {
   @IsString()
-  sender: string;
+  from: string;
 
   @IsString()
-  recipient: string;
+  to: string;
 
   @IsString()
   content: string;
@@ -15,4 +15,7 @@ export class CreateHistoryDto {
 
   @IsString()
   name: string;
+
+  @IsString()
+  role: string;
 }

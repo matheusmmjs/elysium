@@ -8,4 +8,8 @@ export class CreateActiveDto {
   @IsString()
   @IsNotEmpty()
   body: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 }

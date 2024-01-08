@@ -2,17 +2,22 @@ POST http://localhost:3000/v1/actives/messages HTTP/1.1
 content-type: application/json
 
 {
-    "to": "whatsapp:+5514998336427",
-    "body": "Teste matheus"
+    "to": "5514998336427",
+    "body": "Respondendo sua pergunta:",
+    "name": "Steve Moreira"
 }
+
+###
+GET http://localhost:3000/v1/historic/5514998336427 HTTP/1.1
 
 ###
 POST https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/actives/messages HTTP/1.1
 content-type: application/json
 
 {
-    "to": "whatsapp:+5514998336427",
-    "body": "Teste matheus via ngrok"
+    "to": "5514998336427",
+    "body": "Teste matheus via ngrok",
+    "name": "Matheus Moreira"
 }
 
 ###
