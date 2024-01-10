@@ -22,7 +22,7 @@ export class ActiveService {
       await this.twilioClient.messages.create({
         body: createActiveDto.body,
         to: `whatsapp:+${createActiveDto.to}`,
-        from: process.env.TWILIO_PHONE_NUMBER,
+        from: `whatsapp:+${process.env.TWILIO_PHONE_NUMBER}`,
       });
       this.logger.debug('Sent successfully');
 
