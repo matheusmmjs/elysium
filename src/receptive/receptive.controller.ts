@@ -10,7 +10,7 @@ export class ReceptiveController {
   constructor(private readonly receptiveService: ReceptiveService) {}
 
   @Post()
-  create(@Body() createReceptiveDto: CreateReceptiveDto) {
+  create(@Body() createReceptiveDto: CreateReceptiveDto): Promise<void> {
     return this.receptiveService.create(createReceptiveDto);
   }
 }

@@ -10,7 +10,7 @@ export class ActiveController {
   constructor(private readonly activeService: ActiveService) {}
 
   @Post()
-  create(@Body() createActiveDto: CreateActiveDto) {
+  create(@Body() createActiveDto: CreateActiveDto): Promise<void> {
     return this.activeService.create(createActiveDto);
   }
 }

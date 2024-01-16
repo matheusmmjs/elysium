@@ -10,13 +10,6 @@ export const MessageSchema = new Schema({
   sentDate: { type: Date, default: Date.now },
 });
 
-MessageSchema.pre('save', function (next) {
-  if (!this.sentDate) {
-    this.sentDate = new Date();
-  }
-  next();
-});
-
 import { Document } from 'mongoose';
 
 export interface Message extends Document {

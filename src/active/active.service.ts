@@ -4,6 +4,7 @@ import { CreateActiveDto } from './dto/create-active.dto';
 import { HistoricService } from './../historic/historic.service';
 import { MessageStatusEnum } from './../historic/enum/message-status.enum';
 import { MessageRoleEnum } from './../historic/enum/message-role.enum';
+import configCommon from './../common/config.common';
 
 @Injectable()
 export class ActiveService {
@@ -12,8 +13,8 @@ export class ActiveService {
 
   constructor(private readonly historicService: HistoricService) {
     this.twilioClient = new Twilio(
-      process.env.TWILIO_ACCOUNT_SID,
-      process.env.TWILIO_AUTH_TOKEN,
+      configCommon.twilioAccountSid,
+      configCommon.twilioAuthToken,
     );
   }
 
@@ -22,12 +23,12 @@ export class ActiveService {
       await this.twilioClient.messages.create({
         body: createActiveDto.body,
         to: `whatsapp:+${createActiveDto.to}`,
-        from: `whatsapp:+${process.env.TWILIO_PHONE_NUMBER}`,
+        from: `whatsapp:+${configCommon.twilioPhoneNumber}`,
       });
       this.logger.debug('Sent successfully');
 
       this.historicService.create(createActiveDto.to, {
-        from: process.env.TWILIO_PHONE_NUMBER,
+        from: configCommon.twilioPhoneNumber,
         to: `whatsapp:${createActiveDto.to}`,
         content: createActiveDto.body,
         status: MessageStatusEnum.SENT,
