@@ -1,16 +1,19 @@
-import { Schema } from 'mongoose';
+import { Document, Schema, Types } from 'mongoose';
 
-export const MessageSchema = new Schema({
-  from: { type: String, required: true },
-  to: { type: String, required: true },
-  content: { type: String, required: true },
-  status: { type: String, required: true },
-  name: { type: String, required: true },
-  role: { type: String, required: true },
-  sentDate: { type: Date, default: Date.now },
-});
-
-import { Document } from 'mongoose';
+export const MessageSchema = new Schema(
+  {
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    content: { type: String, required: true },
+    status: { type: String, required: true },
+    name: { type: String, required: true },
+    role: { type: String, required: true },
+    central: { type: Types.ObjectId, ref: 'Central' },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 export interface Message extends Document {
   from: string;
@@ -19,5 +22,5 @@ export interface Message extends Document {
   status: string;
   name: string;
   role: string;
-  sentDate: Date;
+  central: Types.ObjectId;
 }

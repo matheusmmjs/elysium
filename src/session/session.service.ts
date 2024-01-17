@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Session } from './schema/session.schema';
-// import configCommon from './../common/config.common';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class SessionService {
@@ -18,18 +18,20 @@ export class SessionService {
 
   async create(
     clientId: string,
+    centralId: Types.ObjectId,
     userId: string,
     attendingId: string,
     isBotSession?: boolean,
   ): Promise<void> {
     try {
-      const session = new this.sessionModel({
+      const newSession = new this.sessionModel({
         clientId,
+        central: centralId,
         userId,
         isBotSession,
         attending: attendingId,
       });
-      await session.save();
+      await newSession.save();
       this.logger.debug('Started new session successfully');
     } catch (error) {
       this.logger.error('Error saving session to schema:', error);
@@ -40,10 +42,14 @@ export class SessionService {
     }
   }
 
-  async findOne(clientId: string): Promise<Session | null> {
-    return this.sessionModel
+  async findOne(
+    clientId: string,
+    centralId: Types.ObjectId,
+  ): Promise<Session | null> {
+    return await this.sessionModel
       .findOne({
         clientId,
+        central: centralId,
         isActive: true,
       })
       .exec();

@@ -4,9 +4,8 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Attending } from './schema/attending.schema';
-// import configCommon from './../common/config.common';
 
 @Injectable()
 export class AttendingService {
@@ -16,10 +15,15 @@ export class AttendingService {
     @InjectModel('Attending') private readonly attendingModel: Model<Attending>,
   ) {}
 
-  async create(clientId: string, context?: string): Promise<void> {
+  async create(
+    clientId: string,
+    centralId: Types.ObjectId,
+    context?: string,
+  ): Promise<void> {
     try {
       const newAttending = new this.attendingModel({
         clientId,
+        central: centralId,
         context,
       });
       await newAttending.save();
@@ -33,11 +37,15 @@ export class AttendingService {
     }
   }
 
-  async findOne(clientId: string): Promise<Attending | null> {
+  async findOne(
+    clientId: string,
+    centralId: Types.ObjectId,
+  ): Promise<Attending | null> {
     try {
       return await this.attendingModel
         .findOne({
           clientId,
+          central: centralId,
           isActive: true,
         })
         .exec();

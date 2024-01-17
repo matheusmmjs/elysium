@@ -33,6 +33,7 @@
     "mongoose": "^8.0.3",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
+    "slugify": "^1.6.6",
     "twilio": "^5.0.0-rc.1"
   },
   "devDependencies": {

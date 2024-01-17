@@ -5,13 +5,17 @@ import { HistoricService } from './../historic/historic.service';
 import { MessageStatusEnum } from './../historic/enum/message-status.enum';
 import { MessageRoleEnum } from './../historic/enum/message-role.enum';
 import configCommon from './../common/config.common';
+import { CentralService } from './../central/central.service';
 
 @Injectable()
 export class ActiveService {
   private readonly logger = new Logger(ActiveService.name);
   private readonly twilioClient: Twilio;
 
-  constructor(private readonly historicService: HistoricService) {
+  constructor(
+    private readonly historicService: HistoricService,
+    private readonly centralService: CentralService,
+  ) {
     this.twilioClient = new Twilio(
       configCommon.twilioAccountSid,
       configCommon.twilioAuthToken,
@@ -27,9 +31,13 @@ export class ActiveService {
       });
       this.logger.debug('Sent successfully');
 
-      this.historicService.create(createActiveDto.to, {
+      const central = await this.centralService.findOne(
+        createActiveDto.centralId,
+      );
+
+      await this.historicService.create(central._id, createActiveDto.to, {
         from: configCommon.twilioPhoneNumber,
-        to: `whatsapp:${createActiveDto.to}`,
+        to: createActiveDto.to,
         content: createActiveDto.body,
         status: MessageStatusEnum.SENT,
         name: createActiveDto.name,

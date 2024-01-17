@@ -6,6 +6,7 @@ import { HistoricModule } from './historic/historic.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AttendingModule } from './attending/attending.module';
 import { SessionModule } from './session/session.module';
+import { CentralModule } from './central/central.module';
 import configCommon from './common/config.common';
 
 @Module({
@@ -19,6 +20,7 @@ import configCommon from './common/config.common';
     HistoricModule,
     AttendingModule,
     SessionModule,
+    CentralModule,
   ],
 })
 export class AppModule {}

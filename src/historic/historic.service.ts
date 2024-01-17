@@ -4,10 +4,11 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateHistoricDto } from './dto/create-historic.dto';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Message } from './schema/message.schema';
 import { Historic } from './schema/historic.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { CentralService } from './../central/central.service';
 
 @Injectable()
 export class HistoricService {
@@ -16,32 +17,47 @@ export class HistoricService {
   constructor(
     @InjectModel('Message') private readonly messageModel: Model<Message>,
     @InjectModel('Historic') private readonly historicModel: Model<Historic>,
+    private readonly centralService: CentralService,
   ) {}
 
   async create(
+    central: Types.ObjectId,
     clientId: string,
     createHistoricDto: CreateHistoricDto,
   ): Promise<void> {
     try {
-      const newMessage = new this.messageModel(createHistoricDto);
+      const newMessage = new this.messageModel({
+        ...createHistoricDto,
+        central,
+      });
+
       await newMessage.save();
       this.logger.debug('Saved new message successfully');
 
-      const historic = await this.historicModel.findOne({ clientId }).exec();
+      const historic = await this.historicModel
+        .findOne({ clientId, central })
+        .exec();
+
       if (historic) {
-        historic.messages.push(new this.messageModel(createHistoricDto));
+        historic.messages.push(
+          new this.messageModel({
+            ...createHistoricDto,
+            central,
+          }),
+        );
         this.logger.debug('Updated historic successfully');
 
         await historic.save();
       } else {
-        const phoneNumberRegex: RegExp = /whatsapp:\+(\d+)/;
-        const match: RegExpMatchArray | null =
-          createHistoricDto.to.match(phoneNumberRegex);
-
         const newHistoric = new this.historicModel({
           clientId,
-          messages: [new this.messageModel(createHistoricDto)],
-          tenant: match[1],
+          messages: [
+            new this.messageModel({
+              ...createHistoricDto,
+              central,
+            }),
+          ],
+          central,
         });
         this.logger.debug('Saved new historic successfully');
 
@@ -56,9 +72,13 @@ export class HistoricService {
     }
   }
 
-  async findOne(clientId: string): Promise<Historic | null> {
+  async findOne(centralId: string, clientId: string): Promise<Historic | null> {
     try {
-      return await this.historicModel.findOne({ clientId }).exec();
+      const central = await this.centralService.findOne(centralId);
+
+      return await this.historicModel
+        .findOne({ clientId, central: central._id })
+        .exec();
     } catch (error) {
       this.logger.error('Error fetching historic:', error);
       throw new UnprocessableEntityException({

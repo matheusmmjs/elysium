@@ -1,19 +1,15 @@
+### actives ###
 POST http://localhost:3000/v1/actives/messages HTTP/1.1
 content-type: application/json
 
 {
     "to": "5514998336427",
     "body": "Respondendo sua pergunta:",
-    "name": "Raquel Moreira"
+    "name": "Raquel Moreira",
+    "centralId": "65a763ff6a9983ee61e3b98d"
 }
 
-###
-GET http://localhost:3000/v1/historic/5514998336427 HTTP/1.1
-
-###
-GET http://localhost:3000/v1/historic/5514998336427/sse HTTP/1.1
-
-###
+### actives/ngrok ###
 POST https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/actives/messages HTTP/1.1
 content-type: application/json
 
@@ -22,6 +18,92 @@ content-type: application/json
     "body": "Teste matheus via ngrok",
     "name": "Matheus Moreira"
 }
+### actives/ngrok ###
+### actives ###
+
+### centrals ###
+GET http://localhost:3000/v1/centrals HTTP/1.1
 
 ###
+GET http://localhost:3000/v1/centrals/65a76301facc48d1e99a8895 HTTP/1.1
+
+###
+POST http://localhost:3000/v1/centrals HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Restaurante do seu Zé2",
+    "tenant": "5514323622212",
+    "descripton": "Restaurante familiar, desde 2010 na cidade de Piratininga"
+}
+
+###
+PUT http://localhost:3000/v1/centrals/65a76301facc48d1e99a8895 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Restaurante do seu Valdir",
+    "tenant": "5514443622267",
+    "descripton": "Restaurante nao familiar, desde 2011 na cidade de Piratininga"
+}
+
+###
+DELETE http://localhost:3000/v1/centrals/65a76301facc48d1e99a8895 HTTP/1.1
+### centrals ###
+
+### tenant-centrals ###
+GET http://localhost:3000/v1/tenant-centrals HTTP/1.1
+
+###
+GET http://localhost:3000/v1/tenant-centrals/65a7648a6a9983ee61e3b995 HTTP/1.1
+
+###
+POST http://localhost:3000/v1/tenant-centrals HTTP/1.1
+content-type: application/json
+
+{
+    "tenant": "14155238886",
+    "central": {
+        "_id": "65a763ff6a9983ee61e3b98d",
+        "name": "Restaurante do seu Zé2",
+        "tenant": "5514323622212",
+        "isActive": true,
+        "createdAt": "2024-01-17T05:22:07.467Z",
+        "updatedAt": "2024-01-17T05:22:07.467Z",
+        "alias": "restaurante_do_seu_ze2",
+        "__v": 0
+    }
+}
+
+###
+PUT http://localhost:3000/v1/tenant-centrals/65a7648a6a9983ee61e3b995 HTTP/1.1
+content-type: application/json
+
+{
+    "tenant": "5514323622212",
+    "central": {
+        "_id": "65a763ff6a9983ee61e3b98d",
+        "name": "Restaurante do seu Valdir",
+        "tenant": "5514323622212",
+        "isActive": true,
+        "createdAt": "2024-01-17T05:22:07.467Z",
+        "updatedAt": "2024-01-17T05:22:07.467Z",
+        "alias": "restaurante_do_seu_ze2",
+        "__v": 0
+    }
+}
+
+###
+DELETE http://localhost:3000/v1/tenant-centrals/65a7648a6a9983ee61e3b995 HTTP/1.1
+### tenant-centrals ###
+
+### historic ###
+GET http://localhost:3000/v1/historic/5514998336427 HTTP/1.1
+
+###
+GET http://localhost:3000/v1/historic/5514998336427/sse HTTP/1.1
+
+### historic/ngrok ###
 GET https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/history/5514998336427 HTTP/1.1
+### historic/ngrok ###
+### historic ###

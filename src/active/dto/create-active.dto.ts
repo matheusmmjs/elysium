@@ -12,4 +12,8 @@ export class CreateActiveDto {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  centralId: string;
 }

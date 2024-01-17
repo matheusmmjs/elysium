@@ -1,20 +1,19 @@
 import { randomUUID } from 'crypto';
-import { Schema } from 'mongoose';
+import { Document, Schema, Types } from 'mongoose';
 
 export const AttendingSchema = new Schema(
   {
     clientId: { type: String, required: true },
+    central: { type: Types.ObjectId, ref: 'Central' },
+    //TODO gerar um schema para o protocol
     protocolId: { type: String, required: true, default: randomUUID() },
     context: { type: String },
     isActive: { type: Boolean, required: true, default: true },
-    endAt: { type: Date },
   },
   {
     timestamps: true,
   },
 );
-
-import { Document } from 'mongoose';
 
 export interface Attending extends Document {
   clientId: string;
@@ -22,5 +21,4 @@ export interface Attending extends Document {
   context: string;
   createdAt: Date;
   updatedAt: Date;
-  endAt: Date;
 }

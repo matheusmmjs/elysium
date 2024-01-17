@@ -4,6 +4,7 @@ import { HistoricController } from './historic.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageSchema } from './schema/message.schema';
 import { HistoricSchema } from './schema/historic.schema';
+import { CentralModule } from './../central/central.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { HistoricSchema } from './schema/historic.schema';
         schema: HistoricSchema,
       },
     ]),
+    CentralModule,
   ],
   controllers: [HistoricController],
   providers: [HistoricService],
