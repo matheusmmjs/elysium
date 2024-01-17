@@ -6,6 +6,7 @@ const {
   MONGODBATLAS_PASSWORD,
   SESSION_TIME,
   ATTENDING_TIME,
+  USER_ID_BOT,
 } = process.env;
 
 export default {
@@ -14,8 +15,7 @@ export default {
   twilioPhoneNumber: TWILIO_PHONE_NUMBER,
   mongoDbAtlasUser: MONGODBATLAS_USER,
   mongoDbAtlasPassword: MONGODBATLAS_PASSWORD,
-  // in minutes
   sessionTime: parseInt(SESSION_TIME),
-  // in hours
   attendingTime: parseInt(ATTENDING_TIME),
+  userIdBot: USER_ID_BOT,
 };

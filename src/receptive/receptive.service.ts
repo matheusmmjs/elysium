@@ -4,6 +4,8 @@ import { HistoricService } from './../historic/historic.service';
 import { MessageRoleEnum } from './../historic/enum/message-role.enum';
 import { MessageStatusEnum } from './../historic/enum/message-status.enum';
 import { AttendingService } from './../attending/attending.service';
+import { SessionService } from './../session/session.service';
+import configCommon from './../common/config.common';
 
 @Injectable()
 export class ReceptiveService {
@@ -12,6 +14,7 @@ export class ReceptiveService {
   constructor(
     private readonly historicService: HistoricService,
     private readonly attendingService: AttendingService,
+    private readonly sessionService: SessionService,
   ) {}
 
   async create(createReceptiveDto: CreateReceptiveDto): Promise<void> {
@@ -23,6 +26,16 @@ export class ReceptiveService {
       if (!attendingExists) {
         this.logger.debug('Attending not exists');
         await this.attendingService.create(createReceptiveDto.WaId);
+
+        const { _id } = await this.attendingService.findOne(
+          createReceptiveDto.WaId,
+        );
+
+        await this.sessionService.create(
+          createReceptiveDto.WaId,
+          configCommon.userIdBot,
+          _id,
+        );
       } else {
         this.logger.debug('Attending exists');
       }

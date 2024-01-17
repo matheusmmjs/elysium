@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Attending } from './schema/attending.schema';
-import configCommon from './../common/config.common';
+// import configCommon from './../common/config.common';
 
 @Injectable()
 export class AttendingService {
@@ -23,6 +23,7 @@ export class AttendingService {
         context,
       });
       await newAttending.save();
+      this.logger.debug('Started new attending successfully');
     } catch (error) {
       this.logger.error('Error saving attending to schema:', error);
       throw new UnprocessableEntityException({
@@ -37,11 +38,7 @@ export class AttendingService {
       return await this.attendingModel
         .findOne({
           clientId,
-          createdAt: {
-            $gte: new Date(
-              Date.now() - configCommon.attendingTime * 60 * 60 * 1000,
-            ),
-          },
+          isActive: true,
         })
         .exec();
     } catch (error) {
@@ -52,4 +49,8 @@ export class AttendingService {
       });
     }
   }
+
+  // async end(sessionId: string): Promise<void> {
+  //   await this.sessionModel.findByIdAndUpdate(sessionId, { isActive: false });
+  // }
 }

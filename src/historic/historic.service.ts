@@ -25,6 +25,7 @@ export class HistoricService {
     try {
       const newMessage = new this.messageModel(createHistoricDto);
       await newMessage.save();
+      this.logger.debug('Saved new message successfully');
 
       const historic = await this.historicModel.findOne({ clientId }).exec();
       if (historic) {
@@ -35,7 +36,7 @@ export class HistoricService {
       } else {
         const phoneNumberRegex: RegExp = /whatsapp:\+(\d+)/;
         const match: RegExpMatchArray | null =
-          createHistoricDto.from.match(phoneNumberRegex);
+          createHistoricDto.to.match(phoneNumberRegex);
 
         const newHistoric = new this.historicModel({
           clientId,

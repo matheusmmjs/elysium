@@ -4,20 +4,15 @@ import { Schema } from 'mongoose';
 export const AttendingSchema = new Schema(
   {
     clientId: { type: String, required: true },
-    protocolId: { type: String },
+    protocolId: { type: String, required: true, default: randomUUID() },
     context: { type: String },
+    isActive: { type: Boolean, required: true, default: true },
+    endAt: { type: Date },
   },
   {
     timestamps: true,
   },
 );
-
-AttendingSchema.pre('save', function (next) {
-  if (!this.protocolId) {
-    this.protocolId = randomUUID();
-  }
-  next();
-});
 
 import { Document } from 'mongoose';
 
@@ -27,4 +22,5 @@ export interface Attending extends Document {
   context: string;
   createdAt: Date;
   updatedAt: Date;
+  endAt: Date;
 }
