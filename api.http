@@ -32,7 +32,7 @@ POST http://localhost:3000/v1/centrals HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Restaurante do seu Zé2",
+    "name": "Restaurante do seu Zé5",
     "tenant": "5514323622212",
     "descripton": "Restaurante familiar, desde 2010 na cidade de Piratininga"
 }
@@ -98,12 +98,12 @@ DELETE http://localhost:3000/v1/tenant-centrals/65a7648a6a9983ee61e3b995 HTTP/1.
 ### tenant-centrals ###
 
 ### historic ###
-GET http://localhost:3000/v1/historic/5514998336427 HTTP/1.1
+GET http://localhost:3000/v1/centrals/65a76c61c5a5f05099cb5feb/historic/5514998336427 HTTP/1.1
 
 ###
-GET http://localhost:3000/v1/historic/5514998336427/sse HTTP/1.1
+GET http://localhost:3000/v1/centrals/65a76c61c5a5f05099cb5feb/historic/5514998336427/sse HTTP/1.1
 
 ### historic/ngrok ###
-GET https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/history/5514998336427 HTTP/1.1
+GET https://ca41-2804-431-cfe6-2ab5-a958-5a7f-10cf-4924.ngrok-free.app/v1/centrals/65a76c61c5a5f05099cb5feb/history/5514998336427 HTTP/1.1
 ### historic/ngrok ###
 ### historic ###
